@@ -15,7 +15,7 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
+    // Allow requests with no origin (like mobile apps, curl, or Postman)
     if (!origin) {
       callback(null, true);
       return;
@@ -24,15 +24,24 @@ app.use(cors({
     // Remove trailing slash from incoming origin for comparison
     const normalizedOrigin = origin.replace(/\/$/, '');
     
-    if (allowedOrigins.includes(normalizedOrigin)) {
+    // Check if origin matches any allowed origin
+    const isAllowed = allowedOrigins.some(allowedOrigin => {
+      return normalizedOrigin === allowedOrigin || 
+             normalizedOrigin.startsWith(allowedOrigin);
+    });
+    
+    if (isAllowed) {
       callback(null, true);
     } else {
       console.error(`CORS blocked origin: ${origin}`);
+      console.error(`Normalized origin: ${normalizedOrigin}`);
       console.error(`Allowed origins: ${allowedOrigins.join(', ')}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
