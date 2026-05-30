@@ -1,4 +1,3 @@
-// Language badge color schemes
 export const LANGUAGE_COLORS = {
   Hindi: {
     background: '#FFF3E0',
@@ -22,7 +21,6 @@ export const LANGUAGE_COLORS = {
   }
 };
 
-// Helper function to get language colors
 export const getLanguageColors = (language) => {
   return LANGUAGE_COLORS[language] || LANGUAGE_COLORS.English;
 };

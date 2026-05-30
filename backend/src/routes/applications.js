@@ -1,26 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');
+const authMiddleware = require('../middleware/auth');
 
-// Helper function to validate UUID format
 const isValidUUID = (id) => {
   const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   return uuidRegex.test(id);
 };
 
-// Helper function to validate Indian mobile number
 const isValidMobile = (mobile) => {
   const mobileRegex = /^[6-9]\d{9}$/;
   return mobileRegex.test(mobile);
 };
 
-// ENDPOINT 1: POST /api/applications
-// Create a new loan application
 router.post('/applications', async (req, res) => {
   try {
     const { name, mobile, amount, purpose, language } = req.body;
 
-    // Validation
     if (!name || typeof name !== 'string' || name.trim() === '') {
       return res.status(400).json({ error: 'Name is required and must be a non-empty string' });
     }
@@ -42,7 +38,6 @@ router.post('/applications', async (req, res) => {
       return res.status(400).json({ error: `Language is required and must be one of: ${validLanguages.join(', ')}` });
     }
 
-    // Insert into database using parameterized query
     const result = await pool.query(
       `INSERT INTO applications (name, mobile, amount, purpose, language) 
        VALUES ($1, $2, $3, $4, $5) 
@@ -57,16 +52,13 @@ router.post('/applications', async (req, res) => {
   }
 });
 
-// ENDPOINT 2: GET /api/applications
-// Get all applications with optional status filter
-router.get('/applications', async (req, res) => {
+router.get('/applications', authMiddleware, async (req, res) => {
   try {
     const { status } = req.query;
 
     let query = 'SELECT * FROM applications';
     let params = [];
 
-    // If status filter is provided
     if (status) {
       const validStatuses = ['pending', 'approved', 'rejected'];
       if (!validStatuses.includes(status)) {
@@ -86,31 +78,25 @@ router.get('/applications', async (req, res) => {
   }
 });
 
-// ENDPOINT 3: PATCH /api/applications/:id/status
-// Update application status
-router.patch('/applications/:id/status', async (req, res) => {
+router.patch('/applications/:id/status', authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
 
-    // Validate UUID format
     if (!isValidUUID(id)) {
       return res.status(400).json({ error: 'Invalid application ID format' });
     }
 
-    // Validate status
     const validStatuses = ['approved', 'rejected'];
     if (!status || !validStatuses.includes(status)) {
       return res.status(400).json({ error: `Status must be one of: ${validStatuses.join(', ')}` });
     }
 
-    // Update the application
     const result = await pool.query(
       'UPDATE applications SET status = $1 WHERE id = $2 RETURNING *',
       [status, id]
     );
 
-    // Check if application was found
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Application not found' });
     }
@@ -122,11 +108,8 @@ router.patch('/applications/:id/status', async (req, res) => {
   }
 });
 
-// ENDPOINT 4: GET /api/summary
-// Get summary statistics
-router.get('/summary', async (req, res) => {
+router.get('/summary', authMiddleware, async (req, res) => {
   try {
-    // Single query to get counts and sum grouped by status
     const result = await pool.query(`
       SELECT 
         COUNT(*) as total,
@@ -140,10 +123,8 @@ router.get('/summary', async (req, res) => {
       ORDER BY status NULLS FIRST
     `);
 
-    // The ROLLUP will give us a row with NULL status containing totals
     const totalRow = result.rows.find(row => row.status === null);
     
-    // If no applications exist
     if (!totalRow) {
       return res.status(200).json({
         total: 0,
@@ -156,7 +137,6 @@ router.get('/summary', async (req, res) => {
       });
     }
 
-    // Build response object
     const summary = {
       total: parseInt(totalRow.total),
       totalAmount: parseFloat(totalRow.total_amount) || 0,
