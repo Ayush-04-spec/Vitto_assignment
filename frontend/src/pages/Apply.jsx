@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import './Apply.css';
 
+// Production deployment - using environment variable for API URL
+
 const Apply = () => {
   const [formData, setFormData] = useState({
     name: '',
