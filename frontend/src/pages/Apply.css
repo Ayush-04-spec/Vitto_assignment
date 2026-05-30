@@ -1,38 +1,59 @@
 .apply-container {
-  min-height: calc(100vh - 60px);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.apply-container::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .apply-header {
   text-align: center;
   margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 .apply-header h1 {
   font-size: 2rem;
-  color: white;
+  color: #f1f5f9;
   margin-bottom: 0.5rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .apply-header p {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.4);
   font-size: 1rem;
 }
 
 .apply-form {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
   width: 100%;
   max-width: 560px;
   position: relative;
+  z-index: 1;
 }
 
 .apply-form::before {
@@ -42,8 +63,8 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
-  border-radius: 12px 12px 0 0;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  border-radius: 16px 16px 0 0;
 }
 
 .form-group {
@@ -54,39 +75,52 @@
   display: block;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #333;
-  font-size: 0.95rem;
+  color: #94a3b8;
+  font-size: 13px;
 }
 
 .required {
-  color: #e74c3c;
+  color: #f87171;
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
   width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 6px;
-  font-size: 1rem;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 13px;
+  color: #f1f5f9;
   font-family: inherit;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
   box-sizing: border-box;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #475569;
+}
+
+.form-group select option {
+  background: #1e293b;
+  color: #f1f5f9;
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.08);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
 .form-group input.error,
 .form-group textarea.error,
 .form-group select.error {
-  border-color: #e74c3c;
+  border-color: rgba(239, 68, 68, 0.5);
 }
 
 .form-group textarea {
@@ -96,26 +130,26 @@
 
 .error-message {
   display: block;
-  color: #e74c3c;
-  font-size: 0.875rem;
+  color: #fca5a5;
+  font-size: 12px;
   margin-top: 0.25rem;
 }
 
 .submit-error {
-  background-color: #fee;
-  border: 1px solid #e74c3c;
-  color: #c0392b;
-  padding: 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  padding: 8px 12px;
   border-radius: 6px;
   margin-bottom: 1rem;
-  font-size: 0.95rem;
+  font-size: 12px;
 }
 
 .btn {
-  padding: 0.875rem 1.5rem;
+  padding: 11px 1.5rem;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -123,14 +157,14 @@
 }
 
 .btn-primary {
-  background-color: #0f172a;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #667eea;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
 }
 
 .btn-primary:active:not(:disabled) {
@@ -138,9 +172,9 @@
 }
 
 .btn-primary:disabled {
-  background-color: #b0b0b0;
+  opacity: 0.5;
   cursor: not-allowed;
-  opacity: 0.6;
+  transform: none;
 }
 
 .btn-submit {
@@ -149,14 +183,18 @@
 }
 
 .success-section {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 3rem 2rem;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
   text-align: center;
   max-width: 560px;
   width: 100%;
   position: relative;
+  z-index: 1;
 }
 
 .success-section::before {
@@ -166,14 +204,14 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
-  border-radius: 12px 12px 0 0;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  border-radius: 16px 16px 0 0;
 }
 
 .success-icon {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -182,44 +220,45 @@
   font-size: 3rem;
   margin: 0 auto 1.5rem;
   font-weight: bold;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
 }
 
 .success-title {
   font-size: 1.75rem;
-  color: #667eea;
+  color: #a5b4fc;
   margin-bottom: 1rem;
 }
 
 .success-message {
-  color: #666;
+  color: rgba(255, 255, 255, 0.5);
   font-size: 1rem;
   margin-bottom: 2rem;
   line-height: 1.6;
 }
 
 .reference-section {
-  background-color: #f8f9fa;
+  background: rgba(99, 102, 241, 0.06);
+  border: 1px solid rgba(99, 102, 241, 0.15);
   padding: 1.5rem;
-  border-radius: 6px;
+  border-radius: 8px;
   margin-bottom: 2rem;
 }
 
 .reference-label {
   font-weight: 600;
-  color: #333;
+  color: #94a3b8;
   margin-bottom: 0.75rem;
-  font-size: 0.95rem;
+  font-size: 13px;
 }
 
 .reference-number {
   font-family: 'Courier New', monospace;
-  font-size: 1rem;
-  background-color: #fff;
+  font-size: 0.95rem;
+  background: rgba(99, 102, 241, 0.08);
   padding: 1rem;
-  border: 2px solid #667eea;
+  border: 1px solid rgba(99, 102, 241, 0.2);
   border-radius: 6px;
-  color: #667eea;
+  color: #6366f1;
   font-weight: 600;
   word-break: break-all;
 }
@@ -227,7 +266,6 @@
 @media (max-width: 600px) {
   .apply-container {
     padding: 1rem 0.5rem;
-    max-width: 100%;
   }
 
   .apply-header h1 {
@@ -250,11 +288,6 @@
 
   .success-title {
     font-size: 1.5rem;
-  }
-
-  .reference-number {
-    font-size: 0.875rem;
-    padding: 0.75rem;
   }
 
   .btn-submit {

@@ -16,7 +16,7 @@ function Navigation() {
     navigate('/login');
   };
 
-  const isFrosted = location.pathname === '/login' || location.pathname === '/apply';
+  const isFrosted = location.pathname === '/login' || location.pathname === '/apply' || location.pathname === '/dashboard';
   const navClass = isFrosted ? 'navbar nav-frosted' : 'navbar nav-solid';
 
   return (

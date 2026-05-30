@@ -9,6 +9,8 @@ const PORT = process.env.PORT || 3001;
 
 const allowedOrigins = [
   'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:4173',
   'https://vitto-assignment-j8ye.vercel.app',
   process.env.FRONTEND_URL
 ].filter(Boolean).map(origin => origin.replace(/\/$/, ''));
@@ -19,15 +21,8 @@ app.use(cors({
       callback(null, true);
       return;
     }
-    
     const normalizedOrigin = origin.replace(/\/$/, '');
-    
-    const isAllowed = allowedOrigins.some(allowedOrigin => {
-      return normalizedOrigin === allowedOrigin || 
-             normalizedOrigin.startsWith(allowedOrigin);
-    });
-    
-    if (isAllowed) {
+    if (allowedOrigins.includes(normalizedOrigin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
