@@ -3,7 +3,6 @@
 A full-stack portal for managing loan applications. Borrowers submit applications via a public form; the ops team reviews and approves or rejects them through a protected dashboard. Built as part of Vitto's FSE intern assessment.
 
 **Live:** https://vitto-assignment-j8ye.vercel.app  
-**API:** https://vitto-assignment-cdgt.onrender.com
 
 ---
 
