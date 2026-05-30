@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 3001;
 // CORS configuration for production
 const allowedOrigins = [
   'http://localhost:5173',
+  'https://vitto-assignment-j8ye.vercel.app',
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
