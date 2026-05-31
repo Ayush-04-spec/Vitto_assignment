@@ -9,7 +9,7 @@ A full-stack portal for managing loan applications. Borrowers submit application
 ## Stack
 
 - **Frontend** — React 18 + Vite, deployed on Vercel
-- **Backend** — Node.js + Express, deployed on Render
+- **Backend** — Node.js + Express, deployed on Render (kept warm via cron-job.org — no cold starts)
 - **Database** — PostgreSQL on Neon (free tier)
 
 ---
@@ -104,7 +104,6 @@ Password: admin123
 
 ## Known issues
 
-- Render's free tier spins down after 15 minutes of inactivity. First request after that takes around 30 seconds. Subsequent requests are fast.
 - No duplicate mobile number check — the same borrower can submit multiple applications. Would add a UNIQUE constraint on mobile in a follow-up.
 - No pagination on the dashboard table yet.
 
